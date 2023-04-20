@@ -1,1 +1,1 @@
-hola soy el product 1
+[{"title":"titulo 1","description":"descripcion 1","price":100,"thumbnail":"imagen 1","code":"abc123","stock":20,"id":1},{"title":"titulo 2","description":"descripcion 2","price":100,"thumbnail":"imagen 2","code":"abc124","stock":20,"id":2}]

@@ -30,11 +30,31 @@ class ProductManager {
     await fs.promises.writeFile (this.path , JSON.stringify (this.products))
 } 
 
+    //"sub-método" readProducts
+    readProducts = async() => {
+    let readProductsResponse =  await fs.promises.readFile (this.path, "utf-8");
+    return JSON.parse(readProductsResponse);
+    }
+
+
     //metodo getProducts
     getProducts = async() => {
-    let readProducts =  await fs.promises.readFile (this.path, "utf-8");
-    let readProductsParsed = await JSON.parse (readProducts); // uso await acá porque tengo problemas de sincronía en el console.log
-    console.log (readProductsParsed);
+        let readAsync = await this.readProducts();
+        return console.log (readAsync);
+        
+    }
+
+    //método getProductById
+    getProductById =async (id) => {
+        let readAsyncFindId= await this.readProducts();
+        let findID = readAsyncFindId.find((product) => product.id === id);
+        if (findID){
+            console.log ("producto encontrado por ID es:")
+            console.log (findID);
+        } else {
+            console.log ("Producto no encontrado");
+        }
+
     }
 }
 
@@ -49,3 +69,6 @@ productManager.addProduct ("titulo 2","descripcion 2",100,"imagen 2","abc124", 2
 
 //compruebo que getProducts y JSON.parse funcionen 
 productManager.getProducts ();
+
+//busco por ID
+productManager.getProductById (1)

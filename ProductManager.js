@@ -11,7 +11,7 @@ class ProductManager {
         this. incrementalId = 0
     }
 
-    //metodo addProduct
+    //método addProduct
     addProduct = async ( title, description, price, thumbnail, code, stock) => {
 
     this.incrementalId++;
@@ -42,7 +42,7 @@ class ProductManager {
     return JSON.parse(readProductsResponse);
     }
 
-    //metodo getProducts
+    //método getProducts
     getProducts = async() => {
         let readAsync = await this.readProducts();
         return  console.log(readAsync);   
@@ -70,7 +70,7 @@ class ProductManager {
         
     }
 
-    //
+    //método updateProduct
 
 } //cierra la class ProductManager
 
@@ -80,19 +80,19 @@ const productManager = new ProductManager; // Instanciar const productManager / 
 
 //Para comprobar, en optionTest elija:
 
-// 1 para agregar producto con addProduct
-// 2 para ver productos con getProducts
-// 3 para seleccionar producto por Id con getProductById
-// 4 para borrar producto con deleteProduct
-// 5 para modificar producto con updateProduct
+// Ejecuto "node ProductManager.js 1" sin comillas, para agregar producto con addProduct
+// Ejecuto "node ProductManager.js 2" sin comillas,para ver productos con getProducts
+// Ejecuto "node ProductManager.js 3" sin comillas, para seleccionar producto por Id con getProductById
+// Ejecuto "node ProductManager.js 4" sin comillas, para borrar producto con deleteProduct
+// Ejecuto "node ProductManager.js 5" sin comillas, para modificar producto con updateProduct
 
-////////////////////////
-const optionTest = 2; 
-////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const optionTest = process.argv[2]; // con process.argv[2] ejecuto node ProductManager.js 1, y me ejecuta el case 1
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 switch (optionTest){
     
-    case 1:
+    case "1":
         //compruebo que addproduct crea y escribe el documento txt;
         productManager.addProduct ("titulo 1","descripcion 1",100,"imagen 1","abc123", 20);
         console.log ("producto agregado exitosamente");
@@ -105,20 +105,19 @@ switch (optionTest){
         console.log ("chequear dbProducts.txt");
     break;
 
-    case 2://compruebo que getProducts y JSON.parse funcionen    
+    case "2"://compruebo que getProducts y JSON.parse funcionen    
         productManager.getProducts();
     break;
 
-    case 3: //busco por ID (solo hay 3 productos)
-        productManager.getProductById (4);
+    case "3": //busco por ID (solo hay 3 productos)
+        productManager.getProductById (2);
     break;
 
-    case 4://borrar producto con el id de product usando deleteProduct 
-        
+    case "4"://borrar producto con el id de product usando deleteProduct 
         productManager.deleteProduct(2)
     break;
 
-    case 5:// se actualiza un producto con updateProduct
+    case "5":// se actualiza un producto con updateProduct
         
     break;
 

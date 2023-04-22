@@ -71,6 +71,16 @@ class ProductManager {
     }
 
     //método updateProduct
+    updateProduct = async (id, newProps) =>{
+        let readProductsForUpdate = await this.readProducts();
+        let productToUpdate = readProductsForUpdate.find ((product) => product.id === id);
+        console.log (`el product id elegido para modificar es ${id}`, productToUpdate);
+
+        
+
+    }
+
+
 
 } //cierra la class ProductManager
 
@@ -110,7 +120,7 @@ switch (optionTest){
     break;
 
     case "3": //busco por ID (solo hay 3 productos)
-        productManager.getProductById (2);
+        productManager.getProductById (3);
     break;
 
     case "4"://borrar producto con el id de product usando deleteProduct 
@@ -118,7 +128,7 @@ switch (optionTest){
     break;
 
     case "5":// se actualiza un producto con updateProduct
-        
+        productManager.updateProduct(3);
     break;
 
     default:

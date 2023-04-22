@@ -76,6 +76,35 @@ class ProductManager {
         let productToUpdate = readProductsForUpdate.find ((product) => product.id === id);
         console.log (`el product id elegido para modificar es ${id}`, productToUpdate);
 
+        if (productToUpdate){
+            if (newProps.title){
+                productToUpdate.title = newProps.title
+            };
+            if (newProps.description){
+                productToUpdate.description = newProps.description
+            }
+            if (newProps.price){
+                productToUpdate.price = newProps.price
+            }
+            if (newProps.thumbnail){
+                productToUpdate.thumbnail= newProps.thumbnail
+            }
+            if (newProps.code){
+                productToUpdate.code = newProps.code
+            }
+             if (newProps.stock){
+                productToUpdate.stock = newProps.stock
+            }
+            if (newProps.id && newProps.id !== productToUpdate.id){
+                console.log ("el Id de un producto no puede modificarse con este método")
+            }
+
+            await fs.writeFile (this.path, JSON.stringify(readProductsForUpdate));
+            console.log (`Producto actualizado: ${JSON.stringify(productToUpdate)}`)
+        } else {
+            console.log (`No se encontró el producto Id: ${id}`)
+        }
+
         
 
     }
@@ -127,8 +156,12 @@ switch (optionTest){
         productManager.deleteProduct(2)
     break;
 
-    case "5":// se actualiza un producto con updateProduct
-        productManager.updateProduct(3);
+    case "5":// se actualiza un producto con updateProduct(id, {newProps} )
+        productManager.updateProduct(3,{title: "computadora 3", stock:5001});
+    break;
+
+    case "6":// comprobar que no se puede cambiar el id de producto
+     productManager.updateProduct(3, {title:"computadora 5", id:5});
     break;
 
     default:

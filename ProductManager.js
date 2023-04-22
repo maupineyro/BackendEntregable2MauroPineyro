@@ -1,7 +1,7 @@
 //Entregable 2
 
 //importar fileSystem
-const fs = require('fs');
+import { promises as fs } from 'fs';
 
 //Creo la clase ProductManager
 class ProductManager {
@@ -24,15 +24,22 @@ class ProductManager {
     stock,
     id: this.incrementalId,
    }
-    //uso this.products para almacenar los diferentes push que genere el addProduct
-    this.products.push (newProduct);
-
-    await fs.promises.writeFile (this.path , JSON.stringify (this.products))
-} 
+    
+    this.products.push (newProduct);//uso this.products para almacenar los diferentes push que genere el addProduct
+    
+    try{    //write 
+            
+        let Write = await fs.writeFile (this.path, JSON.stringify(this.products));
+                  
+        }
+    catch (err){
+        console.log("error al agregar o crear el archivo");
+    }
+}//cierra el addProduct 
 
     //"sub-método" readProducts
     readProducts = async() => {
-    let readProductsResponse =  await fs.promises.readFile (this.path, "utf-8");
+    let readProductsResponse =  await fs.readFile (this.path, "utf-8");
     return JSON.parse(readProductsResponse);
     }
 
@@ -40,7 +47,7 @@ class ProductManager {
     //metodo getProducts
     getProducts = async() => {
         let readAsync = await this.readProducts();
-        return console.log (readAsync);
+        return  console.log(readAsync);
         
     }
 
@@ -56,19 +63,82 @@ class ProductManager {
         }
 
     }
+
+    //método deleteProduct
+    deleteProduct = async (id) => {
+        let readProductsForDelete= await this.readProducts();
+        const filterProducts = readProductsForDelete.filter ((products) => products.id !== id)
+        console.log (`el product Id elegido para borrar es ${id}`);
+        console.log (filterProducts);
+        
+
+    }
 }
+//////////////////////////////////////////////////////////////////////////////////
 
 // Instanciar const productManager y comprobaciones
 const productManager = new ProductManager;
 
-//compruebo que addproduct crea y escribe el documento txt
-productManager.addProduct ("titulo 1","descripcion 1",100,"imagen 1","abc123", 20);
+//Para comprobar, en switchOption elija:
+// 1 para agregar producto con addProduct
+// 2 para ver productos con getProducts
+// 3 para seleccionar producto por Id con getProductById
+// 4 para borrar producto con deleteProduct
+// 5 para modificar producto con updateProduct
 
-//agrego el 2do producto para comprobar que se agrega y no sobreescribe al producto 1
-productManager.addProduct ("titulo 2","descripcion 2",100,"imagen 2","abc124", 20);
 
-//compruebo que getProducts y JSON.parse funcionen 
-productManager.getProducts ();
+///////////////////////////////////////
+const optionTest = 4;
+///////////////////////////////////////
 
-//busco por ID
-productManager.getProductById (1)
+switch (optionTest){
+    case 1:
+        //compruebo que addproduct crea y escribe el documento txt;
+        productManager.addProduct ("titulo 1","descripcion 1",100,"imagen 1","abc123", 20);
+        console.log ("producto agregado exitosamente");
+        //agrego el 2do producto para comprobar que se agrega y no sobreescribe al producto 1
+        productManager.addProduct ("titulo 2","descripcion 2",200,"imagen 2","abc124", 20);
+        console.log ("producto agregado exitosamente");
+        //agrego el 3er producto, para probar el borrado
+        productManager.addProduct ("titulo 3","descripcion 3",200,"imagen 3","abc125", 20);
+        console.log ("producto agregado exitosamente");
+        console.log ("chequear dbProducts.txt");
+    break;
+
+    case 2://compruebo que getProducts y JSON.parse funcionen    
+        productManager.getProducts();
+    break;
+
+    case 3: //busco por ID
+        productManager.getProductById (4);
+    break;
+
+    case 4:
+        //borrar producto con el id de product usando deleteProduct 
+        productManager.deleteProduct(3)
+    break;
+
+    case "5":
+        
+    break;
+
+    case "6":
+        console.log ("se hará el metodo update");
+    break;
+
+    default:
+        console.log ("opción invalida");
+    break;
+}
+
+
+
+
+
+
+
+
+
+
+
+
